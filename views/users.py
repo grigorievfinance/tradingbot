@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from model import models
+from models import model
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
