@@ -28,6 +28,9 @@ class UserCreate(UserBase):
     password: str
 
 
+UserAuth = UserCreate
+
+
 class LiteUser(UserBase):
     id: int
 
