@@ -10,7 +10,7 @@ from models.schemas import UserAuth
 from auth import pwd_context
 
 
-def auth(db: Session, user_data: UserAuth):
+def create_token(db: Session, user_data: UserAuth):
     user: User = db.scalar(select(User).where(User.email == user_data.email))
     if not user:
         raise HTTPException(

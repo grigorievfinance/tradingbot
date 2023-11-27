@@ -5,6 +5,7 @@ from models import model
 from models.database import engine
 from routers.items import router as items_router
 from routers.users import router as users_router
+from routers.tokens import router as token_router
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -19,6 +20,11 @@ app.include_router(
 app.include_router(
     router=users_router,
     prefix='/users',
+)
+
+app.include_router(
+    router=token_router,
+    prefix="/tokens",
 )
 
 if __name__ == "__main__":
