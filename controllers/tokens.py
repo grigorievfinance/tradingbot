@@ -10,7 +10,7 @@ from models.schemas import UserAuth
 from auth import pwd_context
 
 
-def create_token(db: Session, user_data: UserAuth):
+def create_user_token(db: Session, user_data: UserAuth):
     user: User = db.scalar(select(User).where(User.email == user_data.email))
     if not user:
         raise HTTPException(
@@ -21,9 +21,9 @@ def create_token(db: Session, user_data: UserAuth):
     if not pwd_context.verify(user_data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
-    token: Token = Token(user_id=user.id, access_tocken=str(uuid.uuid4()))
+    token: Token = Token(user_id=user.id, access_token=str(uuid.uuid4()))
     db.add(token)
     db.commit()
     return {
-        "access_tocker": token.access_token
+        "access_token": token.access_token
     }

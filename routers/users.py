@@ -4,7 +4,7 @@ from typing import List, Annotated
 
 from models import schemas
 from auth import apikey_scheme
-from views.users import get_users, get_user_by_token
+from views.users import get_users, get_user
 from models.database import get_db
 from controllers.users import register_user
 
@@ -24,5 +24,5 @@ def register(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router.get("/profile", response_model=schemas.LiteUser)
 def get_user_by_token(access_token: Annotated[str, Depends(apikey_scheme)], db: Session = Depends(get_db)):
-    return get_user_by_token(access_token=access_token, db=db)
+    return get_user(access_token=access_token, db=db)
 

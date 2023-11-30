@@ -11,7 +11,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.User).offset(skip).limit(limit).all()
 
 
-def get_user_by_token(access_token: str, db: Session):
+def get_user(access_token: str, db: Session):
     token = db.scalar(select(Token).where(Token.access_token == access_token))
     if token:
         return {
