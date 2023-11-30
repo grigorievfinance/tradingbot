@@ -8,7 +8,7 @@ from models.schemas import UserCreate
 from auth import pwd_context
 
 
-def register(db: Session, user_data: UserCreate):
+def register_user(db: Session, user_data: UserCreate):
     if db.scalar(select(User).where(User.email == user_data.email)):
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,

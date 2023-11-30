@@ -6,6 +6,7 @@ from models import schemas
 from auth import apikey_scheme
 from views.users import get_users, get_user_by_token
 from models.database import get_db
+from controllers.users import register_user
 
 router = APIRouter()
 
@@ -18,7 +19,7 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 @router.post("", response_model=schemas.LiteUser, status_code=201)
 def register(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
-    return register(db=db, user_data=user_data)
+    return register_user(db=db, user_data=user_data)
 
 
 @router.get("/profile", response_model=schemas.LiteUser)
