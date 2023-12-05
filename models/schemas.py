@@ -11,6 +11,9 @@ class ItemBase(BaseModel):
 class ItemCreate(ItemBase):
     pass
 
+    class Config:
+        orm_mode = True
+
 
 class Item(ItemBase):
     id: int

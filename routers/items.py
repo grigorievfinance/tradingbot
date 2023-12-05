@@ -13,8 +13,8 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = get_items(db=db, skip=skip, limit=limit)
+def read_items(access_token: Annotated[str, Depends(apikey_scheme)], skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    items = get_items(access_token=access_token, db=db, skip=skip, limit=limit)
     return items
 
 
@@ -33,3 +33,8 @@ def save_item(access_token: Annotated[str, Depends(apikey_scheme)], item_data: s
     user = get_user_by_token(access_token=access_token, db=db)
     return save(db=db, item_data=item_data, user_data=user)
 
+
+@router.put("", response_model=schemas.Item, status_code=201)
+def update_item(access_token: Annotated[str, Depends(apikey_scheme)], item_data: schemas.ItemCreate, db: Session = Depends(get_db)):
+    user = get_user_by_token(access_token=access_token, db=db)
+    return save(db=db, item_data=item_data, user_data=user)
