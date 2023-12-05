@@ -22,6 +22,25 @@ def save(db: Session, item_data: ItemCreate, user_data: LiteUser):
     return item
 
 
+def update(access_token: str, db: Session, item_data: ItemCreate, item_id: int):
+    user = get_user(access_token=access_token, db=db)
+    item = db.get(entity=Item, ident=item_id)
+    if item.owner_id == user.id:
+        db.query(Item).filter_by(id=item_id).update(
+            {
+                "title": item_data.title,
+                "description": item_data.description
+            }
+        )
+        db.commit()
+    else:
+        raise HTTPException(
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="UNAUTHORIZED"
+        )
+    return item
+
+
 def delete(access_token: str, db: Session, item_id: int):
     user = get_user(access_token=access_token, db=db)
     item = db.get(entity=Item, ident=item_id)
