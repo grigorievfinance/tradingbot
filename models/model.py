@@ -1,6 +1,8 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+
+from models.schemas import Roles
 
 
 Base = declarative_base()
@@ -13,7 +15,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-
+    role = Column(Enum(Roles), default="user")
     items = relationship("Item", back_populates="owner")
     tokens = relationship("Token", back_populates="user")
 

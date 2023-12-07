@@ -16,10 +16,6 @@ def get_user(access_token: str, db: Session):
     token = db.scalar(select(Token).where(Token.access_token == access_token))
     user = LiteUser(id=token.user.id, email=token.user.email)
     if token:
-        # return {
-        #     "id": token.user.id,
-        #     "email": token.user.email
-        # }
         return user
     else:
         raise HTTPException(

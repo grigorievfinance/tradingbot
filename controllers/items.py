@@ -4,11 +4,12 @@ from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 
 from models.model import Item
-from models.schemas import ItemCreate, LiteUser
+from models.schemas import ItemCreate
 from views.users import get_user
 
 
-def save(db: Session, item_data: ItemCreate, user_data: LiteUser):
+def save(access_token: str, db: Session, item_data: ItemCreate):
+    user = get_user(access_token=access_token, db=db)
     if db.scalar(select(Item).where(Item.title == item_data.title)):
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
@@ -16,7 +17,7 @@ def save(db: Session, item_data: ItemCreate, user_data: LiteUser):
         )
     item = Item(title=item_data.title)
     item.description = item_data.description
-    item.owner_id = user_data.id
+    item.owner_id = user.id
     db.add(item)
     db.commit()
     return item

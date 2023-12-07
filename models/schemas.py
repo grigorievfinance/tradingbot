@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from pydantic import EmailStr
 from typing import List, Optional
+from enum import Enum
 
 
 class ItemBase(BaseModel):
@@ -23,8 +24,14 @@ class Item(ItemBase):
         orm_mode = True
 
 
+class Roles(str, Enum):
+    user = "user"
+    admin = "admin"
+
+
 class UserBase(BaseModel):
     email: EmailStr
+    role: Roles = "user"
 
 
 class UserCreate(UserBase):
