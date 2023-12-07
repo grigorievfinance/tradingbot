@@ -15,7 +15,7 @@ def get_users(access_token: str, db: Session, skip: int = 0, limit: int = 100):
     else:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
-            detail="Must be ADMIN"
+            detail="You must be ADMIN"
         )
 
 
