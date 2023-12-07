@@ -12,8 +12,9 @@ router = APIRouter()
 
 
 @router.get("/", response_model=List[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = get_users(db, skip=skip, limit=limit)
+def read_users(access_token: Annotated[str, Depends(apikey_scheme)], skip: int = 0, limit: int = 100,
+               db: Session = Depends(get_db)):
+    users = get_users(access_token=access_token, db=db, skip=skip, limit=limit)
     return users
 
 

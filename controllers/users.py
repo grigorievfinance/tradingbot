@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 
 from models.model import User
-from models.schemas import UserCreate
+from models.schemas import UserCreate, Roles
 from auth import pwd_context
 from views.users import get_user, get_user_by_id
 
@@ -45,7 +45,7 @@ def update_user(access_token: str, db: Session, user_data: UserCreate):
 
 def delete_user(access_token: str, db: Session, user_id: int):
     user = get_user(access_token=access_token, db=db)
-    if user.role == "admin":
+    if user.role == Roles.admin:
         del_user = get_user_by_id(db=db, user_id=user_id)
         db.delete(del_user)
         db.commit()

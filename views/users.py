@@ -5,12 +5,12 @@ from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
 
 from models import model
 from models.model import Token, User
-from models.schemas import LiteUser
+from models.schemas import LiteUser, Roles
 
 
 def get_users(access_token: str, db: Session, skip: int = 0, limit: int = 100):
     user = get_user(access_token=access_token, db=db)
-    if user.role == "admin":
+    if user.role == Roles.admin:
         return db.query(model.User).offset(skip).limit(limit).all()
     else:
         raise HTTPException(
