@@ -15,7 +15,7 @@ def register_user(db: Session, user_data: UserCreate):
             status_code=HTTP_400_BAD_REQUEST,
             detail="User with this email already exists!"
         )
-    user = User(email=user_data.email, role=user_data.role)
+    user = User(email=user_data.email, role="user")
     user.hashed_password = pwd_context.hash(user_data.password)
     db.add(user)
     db.commit()

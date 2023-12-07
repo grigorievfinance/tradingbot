@@ -7,6 +7,7 @@ from routers.items import router as items_router
 from routers.users import router as users_router
 from routers.tokens import router as token_router
 
+# model.Base.metadata.drop_all(bind=engine)
 model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
