@@ -5,11 +5,11 @@ from starlette.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 
 from models.model import Item
 from models.schemas import ItemCreate
-from views.users import get_user
+from views.users import get_lite_user
 
 
 def save(access_token: str, db: Session, item_data: ItemCreate):
-    user = get_user(access_token=access_token, db=db)
+    user = get_lite_user(access_token=access_token, db=db)
     if db.scalar(select(Item).where(Item.title == item_data.title)):
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
@@ -24,7 +24,7 @@ def save(access_token: str, db: Session, item_data: ItemCreate):
 
 
 def update(access_token: str, db: Session, item_data: ItemCreate, item_id: int):
-    user = get_user(access_token=access_token, db=db)
+    user = get_lite_user(access_token=access_token, db=db)
     item = db.get(entity=Item, ident=item_id)
     if item.owner_id == user.id:
         db.query(Item).filter_by(id=item_id).update(
@@ -43,14 +43,22 @@ def update(access_token: str, db: Session, item_data: ItemCreate, item_id: int):
 
 
 def delete(access_token: str, db: Session, item_id: int):
-    user = get_user(access_token=access_token, db=db)
-    item = db.get(entity=Item, ident=item_id)
-    if item.owner_id == user.id:
-        db.delete(item)
-        db.commit()
+    if db.scalar(select(Item).where(Item.id == item_id)):
+        user = get_lite_user(access_token=access_token, db=db)
+        item = db.get(entity=Item, ident=item_id)
+        if item.owner_id == user.id:
+            db.delete(item)
+            db.commit()
+        else:
+            raise HTTPException(
+                status_code=HTTP_401_UNAUTHORIZED,
+                detail="UNAUTHORIZED"
+            )
     else:
         raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED,
-            detail="UNAUTHORIZED"
+            status_code=HTTP_400_BAD_REQUEST,
+            detail="Item with this id not exists!"
         )
+
+
 

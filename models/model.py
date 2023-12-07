@@ -16,6 +16,7 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     role = Column(Enum(Roles), default="user")
+
     items = relationship("Item", back_populates="owner")
     tokens = relationship("Token", back_populates="user")
 
