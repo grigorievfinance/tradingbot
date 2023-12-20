@@ -5,9 +5,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
-from models.model import User, Token
-from models.schemas import UserAuth
-from auth import pwd_context
+from src.models.model import User, Token
+from src.models.schemas import UserAuth
+from src.auth import pwd_context
 
 
 def create_user_token(db: Session, user_data: UserAuth):

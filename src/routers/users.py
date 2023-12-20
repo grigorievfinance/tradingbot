@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List, Annotated
 
-from models import schemas
-from auth import apikey_scheme
-from views.users import get_users, get_lite_user
-from models.database import get_db
-from controllers.users import register_user, delete_user
+from src.models import schemas
+from src.auth import apikey_scheme
+from src.views.users import get_users, get_lite_user
+from src.models.database import get_db
+from src.controllers.users import register_user, delete_user
 
 router = APIRouter()
 

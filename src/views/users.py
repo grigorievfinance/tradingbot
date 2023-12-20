@@ -3,9 +3,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
 
-from models import model
-from models.model import Token, User
-from models.schemas import LiteUser, Roles
+from src.models import model
+from src.models.model import Token, User
+from src.models.schemas import LiteUser, Roles
 
 
 def get_users(access_token: str, db: Session, skip: int = 0, limit: int = 100):

@@ -3,9 +3,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 
-from models.model import Item
-from models.schemas import ItemCreate
-from views.users import get_lite_user
+from src.models.model import Item
+from src.models.schemas import ItemCreate
+from src.views.users import get_lite_user
 
 
 def save(access_token: str, db: Session, item_data: ItemCreate):

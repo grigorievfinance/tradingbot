@@ -3,8 +3,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
 
-from models.model import Token, Item
-from views.users import get_lite_user
+from src.models.model import Token, Item
+from src.views.users import get_lite_user
 
 
 def get_items(access_token: str, db: Session, skip: int = 0, limit: int = 100):

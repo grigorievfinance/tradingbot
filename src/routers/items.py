@@ -2,11 +2,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import List, Annotated
 
-from models import schemas
-from auth import apikey_scheme
-from views.items import get_items, get_item_by_id
-from models.database import get_db
-from controllers.items import save, delete, update
+from src.models import schemas
+from src.auth import apikey_scheme
+from src.views.items import get_items, get_item_by_id
+from src.models.database import get_db
+from src.controllers.items import save, delete, update
 
 router = APIRouter()
 
